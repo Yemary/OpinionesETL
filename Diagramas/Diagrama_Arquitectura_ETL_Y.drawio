@@ -1,0 +1,79 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Arquitectura" id="d1">
+    <mxGraphModel dx="1816" dy="714" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="760" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;" value="Arquitectura del proceso de extracción – Sistema de Análisis de Opiniones de Clientes" vertex="1">
+          <mxGeometry height="40" width="1100" x="150" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cf" parent="1" style="html=1;whiteSpace=wrap;rounded=1;verticalAlign=top;fontStyle=1;fontSize=14;dashed=0;fillColor=#F5F5F5;strokeColor=#666666;" value="Fuentes de datos" vertex="1">
+          <mxGeometry height="500" width="280" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="csv" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="CSV&lt;br&gt;Encuestas internas&lt;br&gt;(surveys_part1.csv)" vertex="1">
+          <mxGeometry height="100" width="240" x="60" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="db" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="Base de datos relacional&lt;br&gt;SitioWebDB (SQL Server)&lt;br&gt;Reseñas web" vertex="1">
+          <mxGeometry height="100" width="240" x="60" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="API REST (OpinionesETL.FuenteApi)&lt;br&gt;Comentarios de redes sociales&lt;br&gt;Seguridad: clave X-Api-Key" vertex="1">
+          <mxGeometry height="110" width="240" x="60" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="w" parent="1" style="html=1;whiteSpace=wrap;rounded=1;verticalAlign=top;fontStyle=1;fontSize=14;dashed=0;fillColor=#FFF8E7;strokeColor=#D6B656;" value="Servicio ETL – Worker Service (.NET 8)" vertex="1">
+          <mxGeometry height="560" width="520" x="400" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="lw" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#FFE6CC;strokeColor=#D79B00;" value="Capa Worker (presentación / orquestación)&lt;br&gt;ExtractionWorker · Program.cs (inyección de dependencias)&lt;br&gt;Task.WhenAll: extracción en paralelo" vertex="1">
+          <mxGeometry height="90" width="480" x="420" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="li" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#D5E8D4;strokeColor=#82B366;" value="Capa Infrastructure&lt;br&gt;CsvExtractor (CsvHelper) · DatabaseExtractor (ADO.NET)&lt;br&gt;ApiExtractor (HttpClient / IHttpClientFactory)&lt;br&gt;SqlStagingWriter&amp;lt;T&amp;gt; (SqlBulkCopy) · Opciones de configuración" vertex="1">
+          <mxGeometry height="130" width="480" x="420" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="lc" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#E1D5E7;strokeColor=#9673A6;" value="Capa Core (dominio, sin dependencias)&lt;br&gt;IExtractor&amp;lt;T&amp;gt; · IStagingWriter&amp;lt;T&amp;gt;&lt;br&gt;Modelos: EncuestaRaw · ResenaRaw · ComentarioRaw" vertex="1">
+          <mxGeometry height="100" width="480" x="420" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="cfg" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#FFFFFF;strokeColor=#666666;" value="appsettings.json&lt;br&gt;Rutas, conexiones y claves&lt;br&gt;(configuración centralizada)" vertex="1">
+          <mxGeometry height="80" width="230" x="420" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="log" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#FFFFFF;strokeColor=#666666;" value="ILogger&lt;br&gt;Logs de eventos, errores&lt;br&gt;y tiempos (Stopwatch)" vertex="1">
+          <mxGeometry height="80" width="230" x="670" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="lw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="li" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="li" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="lc" value="implementa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="stg" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fontSize=13;fillColor=#D5E8D4;strokeColor=#82B366;" value="StagingDB&lt;br&gt;stg.EncuestaRaw&lt;br&gt;stg.ResenaRaw&lt;br&gt;stg.ComentarioRaw" vertex="1">
+          <mxGeometry height="130" width="200" x="1020" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="dw" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fontSize=13;fillColor=#F8CECC;strokeColor=#B85450;dashed=1;" value="Base de datos analítica&lt;br&gt;OpinionesDW (modelo estrella)" vertex="1">
+          <mxGeometry height="110" width="200" x="1020" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="dash" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#F8CECC;strokeColor=#B85450;dashed=1;" value="Módulo de visualización&lt;br&gt;Dashboard (Power BI)" vertex="1">
+          <mxGeometry height="90" width="200" x="1020" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="lg" parent="1" style="text;html=1;whiteSpace=wrap;fontSize=12;align=center;fontStyle=2;" value="Línea continua: implementado en esta práctica (E de ETL)&lt;br&gt;Línea punteada: etapas posteriores (T, L y tablero)" vertex="1">
+          <mxGeometry height="50" width="800" x="330" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="csv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="w" value="lectura del archivo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="w" value="consulta SQL">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="w" value="GET + X-Api-Key">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="w" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="stg" value="SqlBulkCopy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="stg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;dashed=1;" target="dw" value="Transformación y carga">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="dw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;dashed=1;" target="dash" value="vistas">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

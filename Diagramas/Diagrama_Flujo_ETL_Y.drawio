@@ -1,0 +1,163 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Flujo ETL" id="d1">
+    <mxGraphModel dx="2013" dy="792" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;" value="Diagrama de flujo del proceso de extracción (E de ETL)" vertex="1">
+          <mxGeometry height="40" width="700" x="300" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="s" parent="1" style="html=1;whiteSpace=wrap;rounded=1;arcSize=50;fontSize=13;fillColor=#E1D5E7;strokeColor=#9673A6;" value="Inicio" vertex="1">
+          <mxGeometry height="40" width="140" x="580" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="Cargar configuración (appsettings.json)&lt;br&gt;Fuentes, conexiones y clave de la API" vertex="1">
+          <mxGeometry height="60" width="260" x="520" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="Iniciar ExtractionWorker&lt;br&gt;Registrar inicio con ILogger" vertex="1">
+          <mxGeometry height="60" width="260" x="520" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="fk" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#FFE6CC;strokeColor=#D79B00;" value="Task.WhenAll: ejecutar las 3 extracciones en paralelo" vertex="1">
+          <mxGeometry height="50" width="460" x="420" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="cx" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="CsvExtractor&lt;br&gt;Lee surveys_part1.csv con CsvHelper&lt;br&gt;(500 registros)" vertex="1">
+          <mxGeometry height="80" width="240" x="60" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="cs" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#D5E8D4;strokeColor=#82B366;" value="Guardar en staging:&lt;br&gt;transacción + TRUNCATE&lt;br&gt;+ SqlBulkCopy" vertex="1">
+          <mxGeometry height="70" width="240" x="60" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="fk" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="cx" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="cx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="cq" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="cq" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="cs" value="Sí">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.007;entryY=0.626;entryDx=0;entryDy=0;entryPerimeter=0;" target="ce" value="No">
+          <mxGeometry relative="1" x="0.1507" as="geometry">
+            <mxPoint x="260" y="576.9999999999999" as="sourcePoint" />
+            <mxPoint x="320" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dx" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="DatabaseExtractor&lt;br&gt;Consulta SQL a SitioWebDB con ADO.NET&lt;br&gt;(200 registros)" vertex="1">
+          <mxGeometry height="80" width="240" x="460" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="fk" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="dx" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="dx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="dq" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="No">
+          <mxGeometry relative="1" x="0.2" y="15" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="672.0000000000002" y="574.9999999999999" as="sourcePoint" />
+            <mxPoint x="722" y="574.9999999999999" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ax" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="ApiExtractor&lt;br&gt;GET /api/comentarios con HttpClient&lt;br&gt;y X-Api-Key (200 registros)" vertex="1">
+          <mxGeometry height="80" width="240" x="860" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="as" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#D5E8D4;strokeColor=#82B366;" value="Guardar en staging:&lt;br&gt;transacción + TRUNCATE&lt;br&gt;+ SqlBulkCopy" vertex="1">
+          <mxGeometry height="70" width="240" x="860" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="ae" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#F8CECC;strokeColor=#B85450;" value="Registrar error (ILogger)&lt;br&gt;y marcar la fuente&lt;br&gt;como ERROR" vertex="1">
+          <mxGeometry height="60" width="150" x="1120" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="fk" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="ax" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="ax" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="aq" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="aq" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="as" value="Sí">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="aq" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="ae" value="No">
+          <mxGeometry relative="1" x="0.2" y="15" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#FFE6CC;strokeColor=#D79B00;" value="Unir resultados de las 3 fuentes" vertex="1">
+          <mxGeometry height="50" width="240" x="460" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="cs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="j" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="ds" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="j" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="de" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="j" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="as" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="j" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="ae" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="j" value="">
+          <mxGeometry relative="1" x="0.0013" as="geometry" />
+        </mxCell>
+        <mxCell id="r" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#DAE8FC;strokeColor=#6C8EBF;" value="Registrar resumen: fuentes OK, registros extraídos&lt;br&gt;y guardados, tiempo total (Stopwatch)" vertex="1">
+          <mxGeometry height="60" width="300" x="430" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="z" parent="1" style="html=1;whiteSpace=wrap;rounded=1;arcSize=50;fontSize=13;fillColor=#E1D5E7;strokeColor=#9673A6;" value="Fin (StopApplication)" vertex="1">
+          <mxGeometry height="40" width="240" x="460" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="nx" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#F8CECC;strokeColor=#B85450;dashed=1;" value="Etapas siguientes (otra práctica):&lt;br&gt;Transformación y Carga → OpinionesDW → Dashboard" vertex="1">
+          <mxGeometry height="80" width="300" x="800" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="s" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="p1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="p2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="fk" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="j" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="r" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="r" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" target="z" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="1" source="r" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;dashed=1;" target="nx" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dq" parent="1" style="rhombus;html=1;whiteSpace=wrap;fontSize=12;fillColor=#FFF2CC;strokeColor=#D6B656;" value="¿Extracción&lt;br&gt;exitosa?" vertex="1">
+          <mxGeometry height="90" width="180" x="490" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="de" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#F8CECC;strokeColor=#B85450;" value="Registrar error (ILogger)&lt;br&gt;y marcar la fuente&lt;br&gt;como ERROR" vertex="1">
+          <mxGeometry height="60" width="150" x="720" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="aq" parent="1" style="rhombus;html=1;whiteSpace=wrap;fontSize=12;fillColor=#FFF2CC;strokeColor=#D6B656;" value="¿Extracción&lt;br&gt;exitosa?" vertex="1">
+          <mxGeometry height="90" width="180" x="890" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="cq" parent="1" style="rhombus;html=1;whiteSpace=wrap;fontSize=12;fillColor=#FFF2CC;strokeColor=#D6B656;" value="¿Extracción&lt;br&gt;exitosa?" vertex="1">
+          <mxGeometry height="90" width="180" x="90" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="ds" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#D5E8D4;strokeColor=#82B366;" value="Guardar en staging:&lt;br&gt;transacción + TRUNCATE&lt;br&gt;+ SqlBulkCopy" vertex="1">
+          <mxGeometry height="70" width="240" x="460" y="668" as="geometry" />
+        </mxCell>
+        <mxCell id="BJp3zvRPO6yDQbID0fdW-4" parent="1" style="shape=stencil(fZbdcgIhDIWfZm8zQAg/17Z9j85U606tdqz9e/tmZ0c0uJ47xP0I5JwEBl59bp8/1kNwn6fj4W39M76ctgM/DCGM++36OJ50NPDjwKvN4bh+PR6+9i/z74/n6ctp9H74nlb4nbmSKZeJCu5vngmZ6jzzNAO7cX8FVKEsBuBKrgKg9oAE8gkCbLeUhEoEQKSUDZDLeWYRKIl8MEDRmHwfyBrBG6Amyu4+kDxxMoB3jhwgYu7TVAsVkFcWCs4CTBEoF4RctKeOxHIf8IXYpikHikAIf+MNUW94AGSSaoAoFIE3AlOyeWU+p2E5S9yfQZcQILVuQOwZdJNoS9Ls3wA5u2XZTIHECqeJ9kDpSaauRiNVcAY1QhdBzeLBli5WazpkSsBLV25uRaqWRyFawTQzRRIQYirJzq5atkBqLfouwqUxLBepthWb10vrWZY6UOAeyKCCtDV625mm9gmUC4Wc3VLJMMIE1BsA2FW9JraVlQB7n3c9oMKhCLEvIM1zBPZ25/umNQ1tVEC2G+fFCC8g398O2hNQuQlVu752DBfA+q0ptnqO5JFmeuIuo9DY7KjY71UxdJV4EntifPWorW++R/dC4t7V3DlIB5cHx2bc7eb3yvX//QNFp+bHDT/+Aw==);lineShape=1;strokeColor=default;" value="" vertex="1">
+          <mxGeometry height="3.88769684696437" width="3.8937831434293457" x="354.2233007020634" y="651.3960937154329" as="geometry" />
+        </mxCell>
+        <mxCell id="BJp3zvRPO6yDQbID0fdW-5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;endFill=0;strokeWidth=2;fontSize=12;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="399" y="598" as="sourcePoint" />
+            <mxPoint x="399" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BJp3zvRPO6yDQbID0fdW-6" edge="1" parent="1" source="ce" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;endFill=0;strokeWidth=2;fontSize=12;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.66;exitY=0.617;exitDx=0;exitDy=0;exitPerimeter=0;" target="dq" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="409" y="608" as="sourcePoint" />
+            <mxPoint x="409" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ce" parent="1" style="html=1;whiteSpace=wrap;rounded=1;fontSize=13;fillColor=#F8CECC;strokeColor=#B85450;" value="Registrar error (ILogger)&lt;br&gt;y marcar la fuente&lt;br&gt;como ERROR" vertex="1">
+          <mxGeometry height="60" width="150" x="331" y="538" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
