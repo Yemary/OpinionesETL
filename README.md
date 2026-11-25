@@ -182,3 +182,37 @@ API REST (comentarios sociales): OK | extraídos 200 | guardados 200
 ## 12. Tecnologías
 
 C# · .NET 8 · Worker Service · ASP.NET Core Minimal API · CsvHelper · ADO.NET · HttpClient · SQL Server · ILogger · Clean Architecture
+
+## Carga de dimensiones del DataWarehouse (OpinionesETL.CargaDW)
+
+Worker Service que carga las dimensiones de la base analítica `OpinionesDW` desde la base transaccional `OpinionesClientesDB`.
+
+| Dimensión | Origen |
+|---|---|
+| `DimProducto` | `Producto` y `Categoria` |
+| `DimCliente` | `Cliente` (más el registro «Anónimo») |
+| `DimCanal` | Encuesta, Web y `Plataforma_Social` |
+| `DimClasificacion` | `Clasificacion` (más «Sin clasificar») |
+| `DimFecha` | Calendario generado por código (2020 a 2030) |
+
+### Cómo funciona
+1. Cada dimensión tiene su propia clase (`IDimensionLoader`) en `OpinionesETL.Infrastructure/Dimensiones`.
+2. Se leen los datos de origen y se cargan a una tabla temporal con `SqlBulkCopy`.
+3. Un `MERGE` inserta los registros nuevos, actualiza solo los que cambiaron y no duplica nada.
+4. Cada carga se hace dentro de una transacción y queda registrada en `dbo.LogCargaDimension`.
+5. Las cinco dimensiones se cargan en paralelo y, si una falla, las demás continúan.
+
+### Cómo ejecutarlo
+1. Ejecutar `Scripts/OpinionesDW_LogCarga.sql` en `OpinionesDW`.
+2. Ajustar las conexiones en `OpinionesETL.CargaDW/appsettings.json`.
+3. Establecer `OpinionesETL.CargaDW` como proyecto de inicio y ejecutar con **Ctrl+F5**.
+
+### Resultado esperado
+```
+DimClasificacion: OK | leídos 4 | nuevos 4 | actualizados 0
+DimCanal: OK | leídos 5 | nuevos 5 | actualizados 0
+DimFecha: OK | leídos 4018 | nuevos 4018 | actualizados 0
+DimProducto: OK | leídos 200 | nuevos 200 | actualizados 0
+DimCliente: OK | leídos 500 | nuevos 500 | actualizados 0
+=== FIN: 5 de 5 dimensiones cargadas correctamente ===
+```
