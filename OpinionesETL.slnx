@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="OpinionesETL.CargaDW/OpinionesETL.CargaDW.csproj" Id="6dcc1907-a080-45d3-8f5b-7185b62febb0" />
   <Project Path="OpinionesETL.Core/OpinionesETL.Core.csproj" />
   <Project Path="OpinionesETL.FuenteApi/OpinionesETL.FuenteApi.csproj" Id="b2b7d247-6769-4f61-a27a-8a2a3720bf22" />
   <Project Path="OpinionesETL.Infrastructure/OpinionesETL.Infrastructure.csproj" />
